@@ -17,9 +17,9 @@
 
 typedef struct		s_block
 {
-	size_t			size;
-	int				status;
 	struct s_block	*next;
+	size_t			space;
+	int				status; // 0 free, 1 not free
 }					t_block;
 
 typedef enum		e_type
@@ -29,7 +29,7 @@ typedef enum		e_type
 					LARGE
 }					t_type;
 
-t_block		g_array[3];
+static t_block		*g_array[3] = {NULL, NULL, NULL};
 
 /*
  ** free.c
@@ -42,7 +42,7 @@ void		free(void *ptr);
 void		*malloc(size_t size);
 void		*malloc_tiny(size_t size);
 void		*malloc_small(size_t size);
-void		*malloc_big(void);
+void		*malloc_big(size_t size);
 
 /*
  ** realloc.c
@@ -57,12 +57,11 @@ void		show_alloc_mem();
 /*
  ** get.c
  */
-void	*get_new_page(void);
+void	*get_new_page(t_type type, size_t size);
 void	*get_free_space(t_type type, size_t size);
 
 /*
  ** util.c
  */
-void	add_new_page(t_type type);
 
 #endif

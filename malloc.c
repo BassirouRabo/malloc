@@ -7,7 +7,7 @@ void		*malloc(size_t size)
 	if (IS_SMALL(size))
 		return (malloc_small(size));
 	if (IS_BIH(size))
-		return (malloc_big());
+		return (malloc_big(size));
 	return (NULL);
 }
 
@@ -17,7 +17,8 @@ void		*malloc_tiny(size_t size)
 
 	if ((free_space = get_free_space(TINY, size)))
 		return (free_space);
-	add_new_page(TINY);
+	if (!(get_new_page(TINY, size)))
+		return (NULL);
 	return (malloc_tiny(size));
 }
 
@@ -27,11 +28,12 @@ void		*malloc_small(size_t size)
 
 	if ((free_space = get_free_space(SMALL, size)))
 		return (free_space);
-	add_new_page(SMALL);
+	if (!(get_new_page(SMALL, size)))
+		return (NULL);
 	return (malloc_small(size));
 }
 
-void		*malloc_big(void)
+void		*malloc_big(size_t size)
 {
-	return (get_new_page());
+	return (get_new_page(LARGE, size));
 }
