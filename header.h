@@ -59,6 +59,7 @@ void		show_alloc_mem();
  */
 void	*get_new_page(t_type type, size_t size);
 void	*get_free_space(t_type type, size_t size);
+void	*get_space(t_block *start, size_t size);
 
 /*
  ** util.c
