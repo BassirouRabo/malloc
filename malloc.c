@@ -15,10 +15,10 @@ void		*malloc_tiny(size_t size)
 {
 	void    *free_space;
 
-	if ((free_space = get_free_space(TINY, size)))
-		return (free_space);
-	if (!(get_new_page(TINY, size)))
-		return (NULL);
+    if ((free_space = get_free_space(TINY, size)))
+        return (free_space);
+    if (!(get_new_page(TINY, size)))
+        return (NULL);
 	return (malloc_tiny(size));
 }
 
