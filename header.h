@@ -15,6 +15,15 @@
 
 # include "libft/libft.h"
 
+typedef  struct     s_test
+{
+	int            *p_int;
+	long            var_long;
+	double          var_double;
+	int             var_int;
+	char            var_char;
+}                   t_test;
+
 typedef struct		s_block
 {
 	struct s_block	*next;
