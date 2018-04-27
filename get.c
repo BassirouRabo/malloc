@@ -2,78 +2,70 @@
 
 void	*get_new_page(t_block *blocks[], t_type type, size_t size)
 {
-	t_block	*block;
-	void	*str;
-	void	*page;
-	size_t	free_space;
+	t_block *block;
+	t_block	*page;
 
-	free_space = getpagesize() - sizeof(t_block);
-	if ((str = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((page = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
-	page = str;
-	ft_memset(str, 0, sizeof(t_block *));
-	str += sizeof(t_block *);
-	ft_memmove(str, &free_space, sizeof(size_t));
-	str += sizeof(size_t);
-	ft_memset(str, 0, sizeof(int));
-	blocks[type] = (t_block *)page;
-	return (page);
-    /*g_array[0] = (t_block *)page;
-    return (g_array[type]);
-	while ((block = g_array[type]) && block->next)
+	page->next = NULL;
+	page->space = getpagesize() - sizeof(t_block);
+	page->status = 0;
+	page->num = 1;
+	if (!(block = blocks[type]))
+		return (blocks[type] = page);
+	while (block->next)
+	{
+		page->num = block->num > page->num ? block->num : page->num;
 		block = block->next;
-	if (!block)
-    {
-        printf("NUL [%d - %zu]\n", type, ((t_block *)page)->space);
-        g_array[type] = page;
-        if (!g_array[type])
-            printf("NO\n");
-        return (g_array[type]);
-    }
-	else
-    {
-        printf("NOT NUL\n");
-        return (block->next = page);
-    }*/
+	}
+	page->num++;
+	return ((block->next = page));
 }
+
 
 void	*get_free_space(t_block *blocks[], t_type type, size_t size)
 {
 	t_block	*block;
-	t_block	*start;
-    t_block *new;
-	size_t	space;
-	size_t  meta;
-	size_t 	remain;
+	t_block *start;
+	t_block *new;
+	size_t  space;
+	int     num;
 
-	start = NULL;
-	space = 0;
-    meta = 0;
 	if (!(block = blocks[type]))
 		return (NULL);
+	num = block->num;
+	start = NULL;
+	space = 0;
 	while (block)
 	{
-		if (*((int *)(((void *)block) + sizeof(t_block *) + sizeof(size_t))))
+		if (block->status || block->num > num)
 		{
 			start = NULL;
+			num = block->num;
 			space = 0;
 		}
 		else
 		{
 			start = start ? start : block;
-			space += *((size_t *)(((void *)block) + sizeof(t_block *))) + meta;
-            meta = sizeof(t_block);
-		}
-		if (start && (int)(remain = space - size - sizeof(t_block)) >= 0)
-		{
-            new = ((void *)start) + size + sizeof(t_block);
-            //printf("start [%p] new[%p]\n", start, new);
-            new->next = block->next;
-            new->space = remain;
-            new->status = block->status;
-            start->next = new;
-            start->status = 1;
-            return (start);
+			if ((space += block->space + (block->next && block->next->num > block->status ? sizeof(t_block) : 0)) == size)
+			{
+				start->next = block->next;
+				start->status = 1;
+				start->space = space;
+				return (start);
+			}
+			if ((int)(space - size - sizeof(t_block)) >= 0)
+			{
+				new = ((void *)start) + size + sizeof(t_block);
+				new->next = block->next;
+				new->space = space - size - sizeof(t_block);
+				new->status = 0;
+				new->num = num;
+				start->status = 1;
+				start->space = size + sizeof(t_block);
+				start->next = new;
+				return (start);
+			}
 		}
 		block = block->next;
 	}

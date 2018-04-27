@@ -3,6 +3,6 @@
 
 # include "struct.h"
 
-t_block     *g_blocks[3];
+t_block     *g_blocks[3] = {NULL, NULL, NULL};
 
 #endif

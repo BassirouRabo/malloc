@@ -8,6 +8,7 @@ typedef struct		s_block
 	struct s_block	*next;
 	size_t			space;
 	int				status; // 0 free, 1 not free
+	int				num;
 }					t_block;
 
 typedef enum		e_type

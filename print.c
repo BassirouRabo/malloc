@@ -4,13 +4,18 @@ void    print(char *name, t_block *block)
 {
 	if (name && block)
 	{
-		printf("%s\n", name);
+		printf("\t%s\n", name);
 		while (block)
 		{
 			printf("CURRENT[%p]\n", block);
-			printf("NEXT[%p]\n", *((t_block **)((void *)block)));
-			printf("SPACE[%zu]\n", *((size_t *)(((void *)block) + sizeof(t_block *))));
-			printf("STATUS[%d]\n\n", *((int *)(((void *)block) + sizeof(t_block *) + sizeof(size_t))));
+			printf("NEXT[%p]\n", block->next);
+			printf("SPACE[%zu]\n",block->space);
+			printf("NUM[%d]\n", block->num);
+			if ( block->status)
+				printf("USED\n");
+			else
+				printf("FREE\n");
+			printf("\n");
 			block = block->next;
 		}
 	}

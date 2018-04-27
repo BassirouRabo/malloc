@@ -19,6 +19,7 @@
 /*
  ** free.c
  */
+void    free_space(t_block *blocks[], t_type type, void *ptr);
 
 /*
  ** malloc.c
@@ -30,7 +31,6 @@ void		*malloc_big(t_block *blocks[3], size_t size);
 /*
  ** realloc.c
  */
-
 
 /*
  ** print.c
