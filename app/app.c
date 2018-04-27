@@ -1,9 +1,16 @@
 #include <stdio.h>
 #include "../header.h"
 
+
 int main(void)
 {
     t_block *block = malloc(4);
+    t_block *p = g_array[0];
+
+    printf(" MAI g_array[%p] P[%p}\n", g_array, p);
+
+    printf("MAIN [%d]\n", this_is_global);
+
     t_block *block2 = malloc(6);
     t_block *block3 = malloc(3);
 
