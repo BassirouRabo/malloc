@@ -1,39 +1,28 @@
 #include "header.h"
 
-void		*malloc(size_t size)
-{
-	if (IS_TINY(size))
-		return (malloc_tiny(size));
-	if (IS_SMALL(size))
-		return (malloc_small(size));
-	if (IS_BIH(size))
-		return (malloc_big(size));
-	return (NULL);
-}
-
-void		*malloc_tiny(size_t size)
+void		*malloc_tiny(t_block *blocks[3], size_t size)
 {
 	void    *free_space;
 
-    if ((free_space = get_free_space(TINY, size)))
+    if ((free_space = get_free_space(blocks, TINY, size)))
         return (free_space);
-    if (!(get_new_page(TINY, size)))
+    if (!(get_new_page(blocks, TINY, size)))
         return (NULL);
-	return (malloc_tiny(size));
+	return (malloc_tiny(blocks, size));
 }
 
-void		*malloc_small(size_t size)
+void		*malloc_small(t_block *blocks[3], size_t size)
 {
 	void    *free_space;
 
-	if ((free_space = get_free_space(SMALL, size)))
+	if ((free_space = get_free_space(blocks, SMALL, size)))
 		return (free_space);
-	if (!(get_new_page(SMALL, size)))
+	if (!(get_new_page(blocks, SMALL, size)))
 		return (NULL);
-	return (malloc_small(size));
+	return (malloc_small(blocks, size));
 }
 
-void		*malloc_big(size_t size)
+void		*malloc_big(t_block *blocks[3], size_t size)
 {
-	return (get_new_page(LARGE, size));
+	return (get_new_page(blocks, LARGE, size));
 }

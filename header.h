@@ -14,55 +14,46 @@
 #include <sys/mman.h>
 
 # include "libft/libft.h"
-
-typedef struct		s_block
-{
-	struct s_block	*next;
-	size_t			space;
-	int				status; // 0 free, 1 not free
-}					t_block;
-
-typedef enum		e_type
-{
-					TINY,
-					SMALL,
-					LARGE
-}					t_type;
-
-t_block		*g_array[3];
+# include "struct.h"
 
 /*
  ** free.c
  */
-void		free(void *ptr);
 
 /*
  ** malloc.c
  */
-void		*malloc(size_t size);
-void		*malloc_tiny(size_t size);
-void		*malloc_small(size_t size);
-void		*malloc_big(size_t size);
+void		*malloc_tiny(t_block *blocks[3], size_t size);
+void		*malloc_small(t_block *blocks[3], size_t size);
+void		*malloc_big(t_block *blocks[3], size_t size);
 
 /*
  ** realloc.c
  */
-void		*realloc(void *ptr, size_t size);
+
 
 /*
  ** print.c
  */
-void		show_alloc_mem();
+void		print(char *mame, t_block *block);
 
 /*
  ** get.c
  */
-void	*get_new_page(t_type type, size_t size);
-void	*get_free_space(t_type type, size_t size);
-void	*get_space(t_block *start, size_t size);
+void		*get_new_page(t_block *blocks[], t_type type, size_t size);
+void		*get_free_space(t_block *blocks[3], t_type type, size_t size);
+void		*get_space(t_block *start, size_t size);
 
 /*
  ** util.c
  */
+
+/*
+ ** expose.h
+ */
+void		*malloc(size_t size);
+void		*realloc(void *ptr, size_t size);
+void		free(void *ptr);
+void		show_alloc_mem();
 
 #endif

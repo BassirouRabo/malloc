@@ -1,12 +1,12 @@
 #include "header.h"
 
-void	*get_new_page(t_type type, size_t size)
+void	*get_new_page(t_block *blocks[], t_type type, size_t size)
 {
 	t_block	*block;
 	void	*str;
 	void	*page;
 	size_t	free_space;
-printf("NEW\n");
+
 	free_space = getpagesize() - sizeof(t_block);
 	if ((str = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
@@ -16,7 +16,9 @@ printf("NEW\n");
 	ft_memmove(str, &free_space, sizeof(size_t));
 	str += sizeof(size_t);
 	ft_memset(str, 0, sizeof(int));
-    g_array[0] = (t_block *)page;
+	blocks[type] = (t_block *)page;
+	return (page);
+    /*g_array[0] = (t_block *)page;
     return (g_array[type]);
 	while ((block = g_array[type]) && block->next)
 		block = block->next;
@@ -32,10 +34,10 @@ printf("NEW\n");
     {
         printf("NOT NUL\n");
         return (block->next = page);
-    }
+    }*/
 }
 
-void	*get_free_space(t_type type, size_t size)
+void	*get_free_space(t_block *blocks[], t_type type, size_t size)
 {
 	t_block	*block;
 	t_block	*start;
@@ -47,7 +49,7 @@ void	*get_free_space(t_type type, size_t size)
 	start = NULL;
 	space = 0;
     meta = 0;
-	if (!(block = g_array[type]))
+	if (!(block = blocks[type]))
 		return (NULL);
 	while (block)
 	{
