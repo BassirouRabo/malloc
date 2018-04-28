@@ -8,7 +8,7 @@ void	*get_new_page(t_block *blocks[], t_type type, size_t size)
 	if ((page = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	page->next = NULL;
-	page->space = getpagesize() - sizeof(t_block);
+	page->space = type == LARGE ? size : getpagesize() - sizeof(t_block);
 	page->status = 0;
 	page->num = 1;
 	if (!(block = blocks[type]))

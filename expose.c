@@ -19,17 +19,10 @@ void		*realloc(void *ptr, size_t size)
 
 void		free(void *ptr)
 {
-	t_block *tiny;
-	t_block *small;
-	t_block large;
-
-	if ((tiny = g_blocks[TINY]))
-		free_space(g_blocks, TINY, ptr);
-	if ((small = g_blocks[SMALL]))
-		free_space(g_blocks, SMALL, ptr);
-	if ((large = g_blocks[LARGE]))
-		free_space(g_blocks, LARGE, ptr);
-	return ;
+	if (!(free_block(g_blocks, TINY, ptr)))
+		if (!(free_block(g_blocks, SMALL, ptr)))
+			free_block(g_blocks, LARGE, ptr);
+	free_pages(g_blocks);
 }
 
 void		show_alloc_mem()

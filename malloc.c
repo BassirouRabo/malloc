@@ -24,5 +24,10 @@ void		*malloc_small(t_block *blocks[3], size_t size)
 
 void		*malloc_big(t_block *blocks[3], size_t size)
 {
-	return (get_new_page(blocks, LARGE, size));
+	t_block    *page;
+
+	if (!(page = (t_block *)get_new_page(blocks, LARGE, size)))
+		return (NULL);
+	page->status = 1;
+	return ((void *)page);
 }

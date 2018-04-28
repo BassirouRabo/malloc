@@ -19,7 +19,9 @@
 /*
  ** free.c
  */
-void    free_space(t_block *blocks[], t_type type, void *ptr);
+int     free_block(t_block *blocks[], t_type type, void *ptr);
+void    free_pages(t_block *blocks[]);
+void    free_page(t_block *blocks[], t_type type);
 
 /*
  ** malloc.c
@@ -42,7 +44,6 @@ void		print(char *mame, t_block *block);
  */
 void		*get_new_page(t_block *blocks[], t_type type, size_t size);
 void		*get_free_space(t_block *blocks[3], t_type type, size_t size);
-void		*get_space(t_block *start, size_t size);
 
 /*
  ** util.c
