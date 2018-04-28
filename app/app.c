@@ -21,9 +21,10 @@ int main(void)
 	(void)malloc(1000);*/
 
 	show_alloc_mem();
-	//free(ptr);
-	//show_alloc_mem();
+	free(ptr);
 	free(ptr2);
 	show_alloc_mem();
+	//free(ptr2);
+	//show_alloc_mem();
 	return (0);
 }
