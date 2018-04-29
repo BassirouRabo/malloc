@@ -8,7 +8,7 @@ void	*get_new_page(t_block *blocks[], t_type type, size_t size)
 	if ((page = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	page->next = NULL;
-	page->space = type == LARGE ? size : getpagesize() - sizeof(t_block);
+	page->space = size - sizeof(t_block);
 	page->status = 0;
 	page->num = 1;
 	if (!(block = blocks[type]))
@@ -22,43 +22,49 @@ void	*get_new_page(t_block *blocks[], t_type type, size_t size)
 	return ((block->next = page));
 }
 
-
 void	*get_free_space(t_block *blocks[], t_type type, size_t size)
 {
-	t_block	*block;
+	t_block *block;
 	t_block *start;
-	t_block *new;
-	size_t  space;
 	int     num;
 
 	if (!(block = blocks[type]))
 		return (NULL);
-	num = block->num;
-	start = NULL;
-	space = 0;
 	while (block)
 	{
-		if (block->status || block->num > num)
-		{
-			start = NULL;
-			num = block->num;
-			space = 0;
-		}
-		else
+		num = block->num;
+		if ((start = get_free_space_on_page(block, size, num)))
+			return (start);
+		while (block && block->num == num)
+			block = block->next;
+	}
+	return (NULL);
+}
+
+void    *get_free_space_on_page(t_block *block, size_t size, int num)
+{
+	t_block *start;
+	size_t  space;
+	t_block *new;
+
+	start = NULL;
+	space = 0;
+	while (block && block->num == num)
+	{
+		if (!block->status)
 		{
 			start = start ? start : block;
-			if ((space += block->space + (block->next && block->next->num > block->status ? sizeof(t_block) : 0)) == size)
+			space += block->space + sizeof(t_block);
+			if (space - sizeof(t_block) == size)
 			{
-				start->next = block->next;
 				start->status = 1;
-				start->space = space;
 				return (start);
 			}
-			if ((int)(space - size - sizeof(t_block)) >= 0)
+			else if ((space - sizeof(t_block)) >=  size + sizeof(t_block))
 			{
 				new = ((void *)start) + size + sizeof(t_block);
 				new->next = block->next;
-				new->space = space - size - sizeof(t_block);
+				new->space = (space - sizeof(t_block)) - size - sizeof(t_block);
 				new->status = 0;
 				new->num = num;
 				start->status = 1;
@@ -66,6 +72,11 @@ void	*get_free_space(t_block *blocks[], t_type type, size_t size)
 				start->next = new;
 				return (start);
 			}
+		}
+		else
+		{
+			start = NULL;
+			space = 0;
 		}
 		block = block->next;
 	}

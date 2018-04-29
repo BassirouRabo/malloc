@@ -5,7 +5,7 @@
 # define M 1024
 # define IS_TINY(x) (x >= 1 && x <= N)
 # define IS_SMALL(x) (x > N && x < M)
-# define IS_BIH(x) (x >= M)
+# define IS_BIG(x) (x >= M)
 
 // TODO to delete
 # include <stdio.h>
@@ -19,9 +19,10 @@
 /*
  ** free.c
  */
-int     free_block(t_block *blocks[], t_type type, void *ptr);
-void    free_pages(t_block *blocks[]);
-void    free_page(t_block *blocks[], t_type type);
+int			free_block(t_block *blocks[], t_type type, void *ptr);
+void		free_pages(t_block *blocks[]);
+void		free_page_tiny_small(t_block *blocks[], t_type type);
+void		free_page_large(t_block *blocks[]);
 
 
 /*
@@ -45,6 +46,7 @@ void		print(char *mame, t_block *block);
  */
 void		*get_new_page(t_block *blocks[], t_type type, size_t size);
 void		*get_free_space(t_block *blocks[3], t_type type, size_t size);
+void		*get_free_space_on_page(t_block *block, size_t size, int num);
 
 /*
  ** util.c

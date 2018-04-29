@@ -7,7 +7,7 @@ void		*malloc(size_t size)
 		return (malloc_tiny(g_blocks, size));
 	if (IS_SMALL(size))
 		return (malloc_small(g_blocks, size));
-	if (IS_BIH(size))
+	if (IS_BIG(size))
 		return (malloc_big(g_blocks, size));
 	return (NULL);
 }
