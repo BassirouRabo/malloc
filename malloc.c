@@ -27,11 +27,11 @@ void		*malloc_large(t_block *blocks[3], size_t size)
 	t_block    *page;
 	t_block *block;
 
-	if ((page = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((page = mmap(0, (size + sizeof(t_block)), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	block = blocks[LARGE];
 	page->next = NULL;
-	page->space = size - sizeof(t_block);
+	page->space = size;
 	page->status = 1;
 	page->num = 1;
 	if (!block)

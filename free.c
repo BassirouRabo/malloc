@@ -31,7 +31,6 @@ void    free_page_tiny_small(t_block *blocks[], t_type type)
 	t_block *prev;
 
 	block = blocks[type];
-
 	prev = NULL;
 	while (block)
 	{

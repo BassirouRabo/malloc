@@ -3,12 +3,23 @@
 
 void		*malloc(size_t size)
 {
+	void	*ptr;
+
 	if (IS_TINY(size))
-		return (malloc_tiny(g_blocks, size));
+	{
+		ptr = malloc_tiny(g_blocks, size);
+		return (ptr ? ptr + sizeof(t_block) : NULL);
+	}
 	if (IS_SMALL(size))
-		return (malloc_small(g_blocks, size));
+	{
+		ptr = malloc_small(g_blocks, size);
+		return (ptr ? ptr + sizeof(t_block) : NULL);
+	}
 	if (IS_LARGE(size))
-		return (malloc_large(g_blocks, size));
+	{
+		ptr = malloc_large(g_blocks, size);
+		return (ptr ? ptr + sizeof(t_block) : NULL);
+	}
 	return (NULL);
 }
 
@@ -36,6 +47,9 @@ void		*realloc(void *ptr, size_t size)
 
 void		free(void *ptr)
 {
+	if (!ptr)
+		return ;
+	ptr -= sizeof(t_block);
 	if (!(free_block(g_blocks, TINY, ptr)))
 		if (!(free_block(g_blocks, SMALL, ptr)))
 			free_block(g_blocks, LARGE, ptr);

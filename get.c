@@ -60,7 +60,7 @@ void    *get_free_space_on_page(t_block *block, size_t size, int num)
 				start->status = 1;
 				return (start);
 			}
-			else if ((space - sizeof(t_block)) >=  size + sizeof(t_block))
+			else if ((space - sizeof(t_block)) - sizeof(t_block) >=  size)
 			{
 				new = ((void *)start) + size + sizeof(t_block);
 				new->next = block->next;
@@ -68,7 +68,7 @@ void    *get_free_space_on_page(t_block *block, size_t size, int num)
 				new->status = 0;
 				new->num = num;
 				start->status = 1;
-				start->space = size + sizeof(t_block);
+				start->space = size;
 				start->next = new;
 				return (start);
 			}
