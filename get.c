@@ -82,3 +82,21 @@ void    *get_free_space_on_page(t_block *block, size_t size, int num)
 	}
 	return (NULL);
 }
+
+t_block		*get_block(t_block *blocks[], void *ptr)
+{
+	t_block *block;
+	int 	i;
+
+	i = 0;
+	while (i < 3) {
+		block = blocks[i++];
+		while (block)
+		{
+			if ((void *)block == ptr)
+				return (block);
+			block = block->next;
+		}
+	}
+	return (NULL);
+}

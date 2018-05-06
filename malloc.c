@@ -22,7 +22,7 @@ void		*malloc_small(t_block *blocks[3], size_t size)
 	return (malloc_small(blocks, size));
 }
 
-void		*malloc_big(t_block *blocks[3], size_t size)
+void		*malloc_large(t_block *blocks[3], size_t size)
 {
 	t_block    *page;
 	t_block *block;

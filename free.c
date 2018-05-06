@@ -31,14 +31,13 @@ void    free_page_tiny_small(t_block *blocks[], t_type type)
 	t_block *prev;
 
 	block = blocks[type];
+
 	prev = NULL;
 	while (block)
 	{
 		start = block;
 		while (!block->status && block->next && block->next->num == start->num)
-		{
 			block = block->next;
-		}
 		if (!block->next || (!block->status && block->next && block->next->num == start->num + 1))
 		{
 			if (!prev)
