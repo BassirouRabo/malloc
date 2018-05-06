@@ -1,6 +1,6 @@
 #include "header.h"
 
-void    print(char *name, t_block *block)
+void	print(char *name, t_block *block)
 {
 	if (name && block)
 	{
@@ -19,4 +19,14 @@ void    print(char *name, t_block *block)
 			block = block->next;
 		}
 	}
+}
+
+void	print_double_free(void)
+{
+	ft_putstr("Error double free\n");
+}
+
+void	print_bus_error(void)
+{
+	ft_putstr("Bus error\n");
 }

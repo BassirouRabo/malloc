@@ -9,6 +9,11 @@ int     free_block(t_block *blocks[], t_type type, void *ptr)
 	{
 		if (block == ptr)
 		{
+			if (!block->status)
+			{
+				print_double_free();
+				exit(1);
+			}
 			block->status = 0;
 			return (1);
 		}

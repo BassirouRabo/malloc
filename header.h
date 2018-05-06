@@ -43,6 +43,8 @@ void	*realloc_large(t_block *blocks[3], t_block *block, void *ptr, size_t size);
  ** print.c
  */
 void	print(char *mame, t_block *block);
+void	print_double_free(void);
+void	print_bus_error(void);
 
 /*
  ** get.c

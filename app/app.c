@@ -17,6 +17,9 @@ int main(void)
 	free(ptr4);
 	free(ptr5);*/
 	printf("************\n");
-	//show_alloc_mem();
+	//void	*ptr7 = realloc(ptr1, 12);
+	show_alloc_mem();
+	free(ptr2);
+	show_alloc_mem();
 	return (0);
 }

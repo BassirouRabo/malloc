@@ -29,6 +29,7 @@ void		*realloc(void *ptr, size_t size)
 
     if (!ptr)
         return (malloc(size));
+	ptr -= sizeof(t_block);
     if (!size)
     {
         free(ptr);
@@ -52,7 +53,11 @@ void		free(void *ptr)
 	ptr -= sizeof(t_block);
 	if (!(free_block(g_blocks, TINY, ptr)))
 		if (!(free_block(g_blocks, SMALL, ptr)))
-			free_block(g_blocks, LARGE, ptr);
+			if (!free_block(g_blocks, LARGE, ptr))
+			{
+				print_bus_error();
+				exit(1);
+			}
 	free_pages(g_blocks);
 }
 
