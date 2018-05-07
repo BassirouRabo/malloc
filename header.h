@@ -50,7 +50,7 @@ void	show_alloc_mem();
  ** util.c
  */
 void	*allocate(t_block *blocks[3], size_t size, t_type type);
-void	*reallote(t_block *blocks[3], t_block *block, void *ptr, size_t size);
+void	*reallocate(t_block *blocks[3], t_block *block, void *ptr, size_t size);
 t_block	*new_block_realloc(t_block *start, t_block *block, size_t space, size_t size);
 int		is_free_space(t_block *blocks[], t_type type, void *ptr, size_t size);
 

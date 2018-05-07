@@ -26,7 +26,7 @@ void		*realloc(void *ptr, size_t size)
 	if (!(block = get_block(g_blocks, ptr)))
 		return (NULL);
 	if (get_type(size) == get_type(block->space) && is_free_space(g_blocks, get_type(size), ptr, size))
-		return (reallote(g_blocks, block, ptr, size));
+		return (reallocate(g_blocks, block, ptr, size));
 	if (!(out = malloc(size)))
 		return (NULL);
 	ft_memcpy(out, ((void *)block + sizeof(t_block)), block->space <= size ? block->space : size);
