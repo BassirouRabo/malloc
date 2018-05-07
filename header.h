@@ -30,9 +30,7 @@ void	*allocate(t_block *blocks[3], size_t size, t_type type);
 /*
  ** realloc.c
  */
-void	*realloc_tiny(t_block *blocks[3], t_block *block, void *ptr, size_t size);
-void	*realloc_small(t_block *blocks[3], t_block *block, void *ptr, size_t size);
-void	*realloc_large(t_block *blocks[3], t_block *block, void *ptr, size_t size);
+void	*reallote(t_block *blocks[3], t_block *block, void *ptr, size_t size);
 
 /*
  ** print.c
@@ -62,9 +60,6 @@ void	show_alloc_mem();
  ** util.c
  */
 int		is_free_space(t_block *blocks[], t_type type, void *ptr, size_t size);
-void	*dispatch_realloc_tiny(t_block *blocks[3], t_block *block, void *ptr, size_t size);
-void	*dispatch_realloc_small(t_block *blocks[3], t_block *block, void *ptr, size_t size);
-void	*dispatch_realloc_large(t_block *blocks[3], t_block *block, void *ptr, size_t size);
 
 /*
  ** help.c

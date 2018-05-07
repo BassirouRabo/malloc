@@ -12,7 +12,9 @@ void		*malloc(size_t size)
 
 void		*realloc(void *ptr, size_t size)
 {
+	t_block	*out;
 	t_block	*block;
+	t_type	type;
 
     if (!ptr)
         return (malloc(size));
@@ -24,13 +26,14 @@ void		*realloc(void *ptr, size_t size)
 	ptr -= sizeof(t_block);
 	if (!(block = get_block(g_blocks, ptr)))
 		return (NULL);
-	if (IS_TINY(size))
-		dispatch_realloc_tiny(g_blocks, block, ptr, size);
-	if (IS_SMALL(size))
-		dispatch_realloc_small(g_blocks, block, ptr, size);
-	if (IS_LARGE(size))
-		dispatch_realloc_large(g_blocks, block, ptr, size);
-	return (NULL);
+	type = get_type(size);
+	if (type == get_type(block->space) && is_free_space(g_blocks, type, ptr, size))
+		return (reallote(g_blocks, block, ptr, size));
+	if (!(out = malloc(size)))
+		return (NULL);
+	ft_memcpy(out, ((void *)block + sizeof(t_block)), block->space <= size ? block->space : size);
+	free((void *)block + sizeof(t_block));
+	return (out);
 }
 
 void		free(void *ptr)
