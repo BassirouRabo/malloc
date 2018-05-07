@@ -18,7 +18,7 @@ void	*reallocate(t_block *blocks[3], t_block *block, void *ptr, size_t size)
 {
 	t_block	*start;
 	size_t	space;
-
+printf("ptr[%p]\n", ptr);
 	if (!block)
 		return (NULL);
 	start = block;
@@ -26,17 +26,20 @@ void	*reallocate(t_block *blocks[3], t_block *block, void *ptr, size_t size)
 	block = block->next;
 	while (block && !block->status && block->num == start->num)
 	{
-		if (space >= size)
-			break ;
 		space += block->space + sizeof(t_block);
 		block = block->next;
 	}
+	printf("start [%p]\nspace[%zu]\nblock[%p]\nsize[%zu]\n\n", start, space, block, size);
 	if (space < size)
 		return (NULL);
 	start->space = size;
-	if (space - sizeof(t_block) >= size)
+	if (space - size >= sizeof(t_block))
+	{
 		start->next = new_block_realloc(start, block, space, size);
-	return (start);
+		return ((void *)start + sizeof(t_block));
+	}
+	
+	return ();
 }
 
 t_block		*new_block_realloc(t_block *start, t_block *block, size_t space, size_t size)
@@ -45,11 +48,12 @@ t_block		*new_block_realloc(t_block *start, t_block *block, size_t space, size_t
 
 	if (!block || !start)
 		return (NULL);
-	new = start + size;
-	new->next = block->next;
+	new = (void *)start + size + sizeof(t_block);
+	//printf("#start[%p]\nnew[%p]\nblock[%p]\n", start, new, block);
+	new->next = block;
 	new->status = 0;
-	new->num = block->num;
-	new->space = space + sizeof(t_block) - size;
+	new->num = start->num;
+	new->space = space - size - sizeof(t_block);
 	return (new);
 }
 
