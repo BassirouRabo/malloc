@@ -3,22 +3,27 @@
 
 void	print(char *name, t_block *block)
 {
+	size_t	total;
+
+	total = 0;
 	if (name && block)
 	{
-		printf("\t%s\n", name);
+		printf("%s : %p\n", name, block);
 		while (block)
 		{
-			printf("CURRENT[%p]\n", block);
-			printf("NEXT[%p]\n", block->next);
-			printf("SPACE[%zu]\n",block->space);
-			printf("NUM[%d]\n", block->num);
-			if ( block->status)
-				printf("USED\n");
+			if (!block->status)
+			{
+				total += block->space;
+				printf("%p - %p : %zu octets [%d][%s]\n", ((void *)block + sizeof(t_block)), ((void *)block->next + sizeof(t_block)), block->space, block->num, block->status ? "USED" : "FREE");
+			}
 			else
-				printf("FREE\n");
-			printf("\n");
+			{
+				total += block->space;
+				printf("%p - %p : %zu octets [%d][%s]\n", ((void *)block + sizeof(t_block)), ((void *)block->next + sizeof(t_block)), block->space, block->num, block->status ? "USED" : "FREE");
+			}
 			block = block->next;
 		}
+		printf("Total : %zu octets\n", total);
 	}
 }
 

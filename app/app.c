@@ -10,13 +10,12 @@ int main(void)
 //	free(ptr2);
 	show_alloc_mem();
 	void	*ptrr1 = realloc(ptr0, 177);
-	printf("**** ptrr1[%p]\n", ptrr1);
 //	show_alloc_mem();
 	//free(ptrr1);
 	//free(ptr3);
 	//free(ptr0);
 	//void	*ptrr2 = realloc(ptrr1, 10);
 	//printf("****\n");
-	show_alloc_mem();
+	//show_alloc_mem();
 	return (0);
 }
