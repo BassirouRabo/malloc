@@ -23,16 +23,6 @@ int		free_block(t_block *blocks[], t_type type, void *ptr);
 void	free_page(t_block *blocks[], t_type type);
 
 /*
- ** malloc.c
- */
-void	*allocate(t_block *blocks[3], size_t size, t_type type);
-
-/*
- ** realloc.c
- */
-void	*reallote(t_block *blocks[3], t_block *block, void *ptr, size_t size);
-
-/*
  ** print.c
  */
 void	print(char *mame, t_block *block);
@@ -59,11 +49,9 @@ void	show_alloc_mem();
 /*
  ** util.c
  */
+void	*allocate(t_block *blocks[3], size_t size, t_type type);
+void	*reallote(t_block *blocks[3], t_block *block, void *ptr, size_t size);
+t_block	*new_block_realloc(t_block *start, t_block *block, size_t space, size_t size);
 int		is_free_space(t_block *blocks[], t_type type, void *ptr, size_t size);
-
-/*
- ** help.c
- */
-t_block		*new_block_realloc(t_block *start, t_block *block, size_t space, size_t size);
 
 #endif

@@ -14,7 +14,6 @@ void		*realloc(void *ptr, size_t size)
 {
 	t_block	*out;
 	t_block	*block;
-	t_type	type;
 
     if (!ptr)
         return (malloc(size));
@@ -26,8 +25,7 @@ void		*realloc(void *ptr, size_t size)
 	ptr -= sizeof(t_block);
 	if (!(block = get_block(g_blocks, ptr)))
 		return (NULL);
-	type = get_type(size);
-	if (type == get_type(block->space) && is_free_space(g_blocks, type, ptr, size))
+	if (get_type(size) == get_type(block->space) && is_free_space(g_blocks, get_type(size), ptr, size))
 		return (reallote(g_blocks, block, ptr, size));
 	if (!(out = malloc(size)))
 		return (NULL);
@@ -59,3 +57,4 @@ void		show_alloc_mem()
 	print("SMALL", g_blocks[SMALL]);
 	print("LARGE", g_blocks[LARGE]);
 }
+
