@@ -100,3 +100,13 @@ t_block		*get_block(t_block *blocks[], void *ptr)
 	}
 	return (NULL);
 }
+
+t_type		get_type(size_t size)
+{
+	if (IS_TINY(size))
+		return (TINY);
+	if (IS_SMALL(size))
+		return (SMALL);
+	return (LARGE);
+}
+

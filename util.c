@@ -37,7 +37,7 @@ void	*dispatch_realloc_tiny(t_block *blocks[3], t_block	*block, void *ptr, size_
 		return (NULL);
 	ft_memcpy(out, ((void *)block + sizeof(t_block)), block->space <= size ? block->space : size);
 	block->status = 0;
-	free((void *)block);
+	free((void *)block + sizeof(t_block));
 	return (out);
 }
 
@@ -52,9 +52,7 @@ void	*dispatch_realloc_small(t_block *blocks[3], t_block *block, void *ptr, size
 	if (!(out = malloc(size)))
 		return (NULL);
 	ft_memcpy(out, ((void *)block + sizeof(t_block)), block->space <= size ? block->space : size);
-	block->status = 0;
-	free((void *)block);
-	printf("#\n");
+	free((void *)block + sizeof(t_block));
 	return (out);
 }
 
@@ -70,6 +68,6 @@ void	*dispatch_realloc_large(t_block *blocks[3], t_block *block, void *ptr, size
 		return (NULL);
 	ft_memcpy(out, ((void *)block + sizeof(t_block)), block->space <= size ? block->space : size);
 	block->status = 0;
-	free((void *)block);
+	free((void *)block + sizeof(t_block));
 	return (out);
 }

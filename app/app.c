@@ -3,25 +3,12 @@
 
 int main(void)
 {
-	void	*ptr1 = malloc(1500);
-	void	*ptr2 = malloc(1500);
-	/*void	*ptr3 = malloc(1300);
-	void	*ptr4 = malloc(1200);
-	void	*ptr5 = malloc(900);
-	void	*ptr6 = malloc(1000);*/
+	void	*ptr1 = malloc(40);
+	void	*ptr2 = malloc(50);
+	void	*ptr3 = malloc(60);
 	show_alloc_mem();
-
-	//free(ptr1);
-/*	free(ptr2);
-	free(ptr3);
-	free(ptr4);
-	free(ptr5);*/
-	printf("************\n");
-	//void	*ptr7 = realloc(ptr1, 12);
-	//show_alloc_mem();
-	//printf("************\n");
-	free(ptr2);
-	free(ptr1);
+	void	*ptrr1 = realloc(ptr1, 500);
+	printf("****\n");
 	show_alloc_mem();
 	return (0);
 }

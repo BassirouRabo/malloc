@@ -16,12 +16,12 @@ void		*realloc(void *ptr, size_t size)
 
     if (!ptr)
         return (malloc(size));
-	ptr -= sizeof(t_block);
     if (!size)
     {
-        free(ptr);
+        free(ptr + sizeof(t_block));
         return (malloc(1));
     }
+	ptr -= sizeof(t_block);
 	if (!(block = get_block(g_blocks, ptr)))
 		return (NULL);
 	if (IS_TINY(size))

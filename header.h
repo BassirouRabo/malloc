@@ -25,7 +25,7 @@ void	free_page(t_block *blocks[], t_type type);
 /*
  ** malloc.c
  */
-void		*allocate(t_block *blocks[3], size_t size, t_type type);
+void	*allocate(t_block *blocks[3], size_t size, t_type type);
 
 /*
  ** realloc.c
@@ -48,6 +48,7 @@ void	*get_new_page(t_block *blocks[], t_type type, size_t size);
 void	*get_free_space(t_block *blocks[3], t_type type, size_t size);
 void	*get_free_space_on_page(t_block *block, size_t size, int num);
 t_block	*get_block(t_block *blocks[], void *ptr);
+t_type	get_type(size_t size);
 
 /*
  ** expose.h
@@ -69,6 +70,5 @@ void	*dispatch_realloc_large(t_block *blocks[3], t_block *block, void *ptr, size
  ** help.c
  */
 t_block		*new_block_realloc(t_block *start, t_block *block, size_t space, size_t size);
-t_type		get_type(size_t size);
 
 #endif
