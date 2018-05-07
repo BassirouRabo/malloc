@@ -45,7 +45,9 @@ void		free(void *ptr)
 				print_bus_error();
 				exit(1);
 			}
-	free_pages(g_blocks);
+	free_page(g_blocks, TINY);
+	free_page(g_blocks, SMALL);
+	free_page(g_blocks, LARGE);
 }
 
 void		show_alloc_mem()

@@ -20,10 +20,7 @@
  ** free.c
  */
 int		free_block(t_block *blocks[], t_type type, void *ptr);
-void	free_pages(t_block *blocks[]);
-void	free_page_tiny_small(t_block *blocks[], t_type type);
-void	free_page_large(t_block *blocks[]);
-
+void	free_page(t_block *blocks[], t_type type);
 
 /*
  ** malloc.c
