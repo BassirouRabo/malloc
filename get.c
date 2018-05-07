@@ -45,7 +45,6 @@ void    *get_free_space_on_page(t_block *block, size_t size, int num)
 {
 	t_block *start;
 	size_t  space;
-	t_block *new;
 
 	start = NULL;
 	space = 0;
@@ -55,23 +54,10 @@ void    *get_free_space_on_page(t_block *block, size_t size, int num)
 		{
 			start = start ? start : block;
 			space += block->space + sizeof(t_block);
-			if (space - sizeof(t_block) == size)
-			{
-				start->status = 1;
+			if ((space - sizeof(t_block) == size) && (start->status = 1))
 				return (start);
-			}
 			else if ((space - sizeof(t_block)) - sizeof(t_block) >=  size)
-			{
-				new = ((void *)start) + size + sizeof(t_block);
-				new->next = block->next;
-				new->space = (space - sizeof(t_block)) - size - sizeof(t_block);
-				new->status = 0;
-				new->num = num;
-				start->status = 1;
-				start->space = size;
-				start->next = new;
-				return (start);
-			}
+				return (new_block_get_free_space_on_page(block, start, size, space));
 		}
 		else
 		{
@@ -109,4 +95,3 @@ t_type		get_type(size_t size)
 		return (SMALL);
 	return (LARGE);
 }
-

@@ -1,5 +1,6 @@
 #include "header.h"
 
+
 void	print(char *name, t_block *block)
 {
 	if (name && block)

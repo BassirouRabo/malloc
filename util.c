@@ -14,11 +14,11 @@ void	*allocate(t_block *blocks[3], size_t size, t_type type)
 	return (allocate(blocks, size, type));
 }
 
-void	*reallocate(t_block *blocks[3], t_block *block, void *ptr, size_t size)
+void	*reallocate(t_block *block, size_t size)
 {
 	t_block	*start;
 	size_t	space;
-printf("ptr[%p]\n", ptr);
+
 	if (!block)
 		return (NULL);
 	start = block;
@@ -29,32 +29,41 @@ printf("ptr[%p]\n", ptr);
 		space += block->space + sizeof(t_block);
 		block = block->next;
 	}
-	printf("start [%p]\nspace[%zu]\nblock[%p]\nsize[%zu]\n\n", start, space, block, size);
 	if (space < size)
 		return (NULL);
 	start->space = size;
 	if (space - size >= sizeof(t_block))
-	{
-		start->next = new_block_realloc(start, block, space, size);
-		return ((void *)start + sizeof(t_block));
-	}
-	
-	return ();
+        start->next = new_block_realloc(start, block, space, size);
+	return ((void *)start + sizeof(t_block));
 }
 
 t_block		*new_block_realloc(t_block *start, t_block *block, size_t space, size_t size)
 {
 	t_block	*new;
 
-	if (!block || !start)
+	if (!start)
 		return (NULL);
 	new = (void *)start + size + sizeof(t_block);
-	//printf("#start[%p]\nnew[%p]\nblock[%p]\n", start, new, block);
 	new->next = block;
 	new->status = 0;
 	new->num = start->num;
 	new->space = space - size - sizeof(t_block);
 	return (new);
+}
+
+t_block     *new_block_get_free_space_on_page(t_block *block, t_block *start, size_t size, size_t space)
+{
+    t_block *new;
+
+    new = ((void *)start) + size + sizeof(t_block);
+    new->next = block->next;
+    new->space = (space - sizeof(t_block)) - size - sizeof(t_block);
+    new->status = 0;
+    new->num = block->num;
+    start->status = 1;
+    start->space = size;
+    start->next = new;
+    return (start);
 }
 
 int		is_free_space(t_block *blocks[], t_type type, void *ptr, size_t size)
