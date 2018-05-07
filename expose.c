@@ -5,22 +5,9 @@ void		*malloc(size_t size)
 {
 	void	*ptr;
 
-	if (IS_TINY(size))
-	{
-		ptr = malloc_tiny(g_blocks, size);
-		return (ptr ? ptr + sizeof(t_block) : NULL);
-	}
-	if (IS_SMALL(size))
-	{
-		ptr = malloc_small(g_blocks, size);
-		return (ptr ? ptr + sizeof(t_block) : NULL);
-	}
-	if (IS_LARGE(size))
-	{
-		ptr = malloc_large(g_blocks, size);
-		return (ptr ? ptr + sizeof(t_block) : NULL);
-	}
-	return (NULL);
+	if (!size)
+		return (NULL);
+	return ((ptr = allocate(g_blocks, size, get_type(size))) ? ptr + sizeof(t_block) : NULL);
 }
 
 void		*realloc(void *ptr, size_t size)

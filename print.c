@@ -28,5 +28,5 @@ void	print_double_free(void)
 
 void	print_bus_error(void)
 {
-	ft_putstr("Bus error\n");
+	ft_putstr("The pointer wasn't allocated\n");
 }
