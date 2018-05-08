@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shared.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: brabo-hi <brabo-hi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/07 17:53:55 by brabo-hi          #+#    #+#             */
+/*   Updated: 2018/05/07 17:53:56 by brabo-hi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SHARED_H
 # define SHARED_H
 
 # include "struct.h"
 
-t_block     *g_blocks[3] = {NULL, NULL, NULL};
+t_block *g_blocks[3] = {NULL, NULL, NULL};
 
 #endif

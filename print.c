@@ -1,5 +1,16 @@
-#include "header.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: brabo-hi <brabo-hi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/07 17:48:59 by brabo-hi          #+#    #+#             */
+/*   Updated: 2018/05/07 17:50:23 by brabo-hi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "header.h"
 
 void	print(char *name, t_block *block)
 {
@@ -12,15 +23,11 @@ void	print(char *name, t_block *block)
 		while (block)
 		{
 			if (!block->status)
-			{
 				total += block->space;
-				printf("%p - %p : %zu octets [%d][%s]\n", ((void *)block + sizeof(t_block)), ((void *)block->next + sizeof(t_block)), block->space, block->num, block->status ? "USED" : "FREE");
-			}
-			else
-			{
-				total += block->space;
-				printf("%p - %p : %zu octets [%d][%s]\n", ((void *)block + sizeof(t_block)), ((void *)block->next + sizeof(t_block)), block->space, block->num, block->status ? "USED" : "FREE");
-			}
+			printf("%p - %p : %zu octets | Page : [%d] | Status : [%s]\n",
+				((void *)block + sizeof(t_block)), ((void *)block->next
+				+ sizeof(t_block)), block->space, block->num, block->status
+				? "USED" : "FREE");
 			block = block->next;
 		}
 		printf("Total : %zu octets\n", total);

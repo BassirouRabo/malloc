@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: brabo-hi <brabo-hi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/07 17:51:29 by brabo-hi          #+#    #+#             */
+/*   Updated: 2018/05/07 17:53:04 by brabo-hi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "header.h"
 
 void	*get_new_page(t_block *blocks[], t_type type, size_t size)
@@ -5,7 +17,8 @@ void	*get_new_page(t_block *blocks[], t_type type, size_t size)
 	t_block *block;
 	t_block	*page;
 
-	if ((page = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((page = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON |
+		MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	page->next = NULL;
 	page->space = size - sizeof(t_block);
@@ -26,7 +39,7 @@ void	*get_free_space(t_block *blocks[], t_type type, size_t size)
 {
 	t_block *block;
 	t_block *start;
-	int     num;
+	int		num;
 
 	if (!(block = blocks[type]))
 		return (NULL);
@@ -41,10 +54,10 @@ void	*get_free_space(t_block *blocks[], t_type type, size_t size)
 	return (NULL);
 }
 
-void    *get_free_space_on_page(t_block *block, size_t size, int num)
+void	*get_free_space_on_page(t_block *block, size_t size, int num)
 {
-	t_block *start;
-	size_t  space;
+	t_block	*start;
+	size_t	space;
 
 	start = NULL;
 	space = 0;
@@ -56,8 +69,9 @@ void    *get_free_space_on_page(t_block *block, size_t size, int num)
 			space += block->space + sizeof(t_block);
 			if ((space - sizeof(t_block) == size) && (start->status = 1))
 				return (start);
-			else if ((space - sizeof(t_block)) - sizeof(t_block) >=  size)
-				return (new_block_get_free_space_on_page(block, start, size, space));
+			else if ((space - sizeof(t_block)) - sizeof(t_block) >= size)
+				return (new_block_get_free_space_on_page(block,
+					start, size, space));
 		}
 		else
 		{
@@ -69,13 +83,14 @@ void    *get_free_space_on_page(t_block *block, size_t size, int num)
 	return (NULL);
 }
 
-t_block		*get_block(t_block *blocks[], void *ptr)
+t_block	*get_block(t_block *blocks[], void *ptr)
 {
 	t_block *block;
-	int 	i;
+	int		i;
 
 	i = 0;
-	while (i < 3) {
+	while (i < 3)
+	{
 		block = blocks[i++];
 		while (block)
 		{
@@ -87,7 +102,7 @@ t_block		*get_block(t_block *blocks[], void *ptr)
 	return (NULL);
 }
 
-t_type		get_type(size_t size)
+t_type	get_type(size_t size)
 {
 	if (IS_TINY(size))
 		return (TINY);
