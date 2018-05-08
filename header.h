@@ -19,9 +19,9 @@
 # define IS_SMALL(x) (x > N && x < M)
 # define IS_LARGE(x) (x >= M)
 
-# include <stdio.h>
 # include <stdlib.h>
 # include <sys/mman.h>
+# include "ft_printf/ft_printf_header.h"
 # include "libft/libft.h"
 # include "struct.h"
 
